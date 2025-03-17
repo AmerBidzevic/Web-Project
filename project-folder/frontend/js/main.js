@@ -1,5 +1,5 @@
-;(function ($) {
-  "use strict"
+(function ($) {
+  "use strict";
 
   // Dropdown on mouse hover
   $(document).ready(function () {
@@ -7,31 +7,31 @@
       if ($(window).width() > 992) {
         $(".navbar .dropdown")
           .on("mouseover", function () {
-            $(".dropdown-toggle", this).trigger("click")
+            $(".dropdown-toggle", this).trigger("click");
           })
           .on("mouseout", function () {
-            $(".dropdown-toggle", this).trigger("click").blur()
-          })
+            $(".dropdown-toggle", this).trigger("click").blur();
+          });
       } else {
-        $(".navbar .dropdown").off("mouseover").off("mouseout")
+        $(".navbar .dropdown").off("mouseover").off("mouseout");
       }
     }
-    toggleNavbarMethod()
-    $(window).resize(toggleNavbarMethod)
-  })
+    toggleNavbarMethod();
+    $(window).resize(toggleNavbarMethod);
+  });
 
   // Back to top button
   $(window).scroll(function () {
     if ($(this).scrollTop() > 100) {
-      $(".back-to-top").fadeIn("slow")
+      $(".back-to-top").fadeIn("slow");
     } else {
-      $(".back-to-top").fadeOut("slow")
+      $(".back-to-top").fadeOut("slow");
     }
-  })
+  });
   $(".back-to-top").click(function () {
-    $("html, body").animate({ scrollTop: 0 }, 1500, "easeInOutExpo")
-    return false
-  })
+    $("html, body").animate({ scrollTop: 0 }, 1500, "easeInOutExpo");
+    return false;
+  });
 
   // Vendor carousel
   $(".vendor-carousel").owlCarousel({
@@ -42,22 +42,22 @@
     smartSpeed: 1000,
     responsive: {
       0: {
-        items: 2
+        items: 2,
       },
       576: {
-        items: 3
+        items: 3,
       },
       768: {
-        items: 4
+        items: 4,
       },
       992: {
-        items: 5
+        items: 5,
       },
       1200: {
-        items: 6
-      }
-    }
-  })
+        items: 6,
+      },
+    },
+  });
 
   // Related carousel
   $(".related-carousel").owlCarousel({
@@ -68,95 +68,123 @@
     smartSpeed: 1000,
     responsive: {
       0: {
-        items: 1
+        items: 1,
       },
       576: {
-        items: 2
+        items: 2,
       },
       768: {
-        items: 3
+        items: 3,
       },
       992: {
-        items: 4
-      }
-    }
-  })
+        items: 4,
+      },
+    },
+  });
 
   // Product Quantity
   $(document).on("click", ".quantity button", function () {
-    var button = $(this)
-    var oldValue = button.closest(".quantity").find("input").val()
+    var button = $(this);
+    var oldValue = button.closest(".quantity").find("input").val();
 
     if (button.hasClass("btn-plus")) {
-      var newVal = parseFloat(oldValue) + 1
+      var newVal = parseFloat(oldValue) + 1;
     } else {
       if (oldValue > 0) {
-        var newVal = parseFloat(oldValue) - 1
+        var newVal = parseFloat(oldValue) - 1;
       } else {
-        newVal = 0
+        newVal = 0;
       }
     }
 
-    button.closest(".quantity").find("input").val(newVal)
-  })
-})(jQuery)
+    button.closest(".quantity").find("input").val(newVal);
+  });
+})(jQuery);
 
 //Modal code
 $(document).ready(function () {
   // When the Login button is clicked
   $("#login-btn").click(function () {
-    $(".modal-title").text("Login")
+    $(".modal-title").text("Login");
 
-    $("#login-form").show()
-    $("#signup-form").hide()
+    $("#login-form").show();
+    $("#signup-form").hide();
 
-    $("#toggle-form").text("Don't have an account? Sign Up")
-    $("#toggle-to-login").hide()
-    $("#myModal").modal("show")
-  })
+    $("#toggle-form").text("Don't have an account? Sign Up");
+    $("#toggle-to-login").hide();
+    $("#myModal").modal("show");
+  });
 
   // When the Sign Up button is clicked
   $("#sign_up-btn").click(function () {
-    $(".modal-title").text("Sign Up")
+    $(".modal-title").text("Sign Up");
 
-    $("#signup-form").show()
-    $("#login-form").hide()
+    $("#signup-form").show();
+    $("#login-form").hide();
 
-    $("#toggle-form").text("Already a member? Login")
-    $("#toggle-to-login").show()
+    $("#toggle-form").text("Already a member? Login");
+    $("#toggle-to-login").show();
 
-    $("#myModal").modal("show")
-  })
+    $("#myModal").modal("show");
+  });
 
   // Toggle between Login and Sign Up forms
   $("#toggle-form").click(function () {
     if ($(".modal-title").text() === "Sign Up") {
-      $(".modal-title").text("Login")
-      $("#login-form").show()
-      $("#signup-form").hide()
+      $(".modal-title").text("Login");
+      $("#login-form").show();
+      $("#signup-form").hide();
 
       // Update toggle text to "Don't have an account? Sign Up"
-      $("#toggle-form").text("Don't have an account? Sign Up")
-      $("#toggle-to-login").hide()
+      $("#toggle-form").text("Don't have an account? Sign Up");
+      $("#toggle-to-login").hide();
     } else {
       // Show the Sign Up form and hide the Login form
-      $(".modal-title").text("Sign Up")
-      $("#signup-form").show()
-      $("#login-form").hide()
+      $(".modal-title").text("Sign Up");
+      $("#signup-form").show();
+      $("#login-form").hide();
 
-      $("#toggle-form").text("Already a member? Login")
-      $("#toggle-to-login").show()
+      $("#toggle-form").text("Already a member? Login");
+      $("#toggle-to-login").show();
     }
-  })
+  });
 
   $("#toggle-to-login").click(function () {
-    $(".modal-title").text("Login")
-    $("#login-form").show()
-    $("#signup-form").hide()
+    $(".modal-title").text("Login");
+    $("#login-form").show();
+    $("#signup-form").hide();
 
     // Update toggle text to "Don't have an account? Sign Up"
-    $("#toggle-form").text("Don't have an account? Sign Up")
-    $("#toggle-to-login").hide()
-  })
-})
-//Product Details LOGIC
+    $("#toggle-form").text("Don't have an account? Sign Up");
+    $("#toggle-to-login").hide();
+  });
+});
+
+//Correct navigation JS
+
+$(document).ready(function () {
+  function updateActiveNav() {
+    var currentView = window.location.hash || "#home"; 
+
+    $(".nav-item").removeClass("active");
+
+    if (currentView === "#home") {
+      $('.nav-link[href="#home"]').addClass("active");
+    } else if (currentView === "#shop") {
+      $('.nav-link[href="#shop"]').addClass("active");
+    } else if (currentView === "#contact") {
+      $('.nav-link[href="#contact"]').addClass("active");
+    } else if (currentView === "#shopping_cart") {
+      $('.nav-link[href="#shopping_cart"]').addClass("active");
+    }
+  }
+
+  updateActiveNav();
+
+  $(window).on("hashchange", function () {
+    updateActiveNav();
+  });
+});
+
+
+//End of navigation JS
