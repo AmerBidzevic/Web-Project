@@ -103,7 +103,6 @@
 
 //Modal code
 $(document).ready(function () {
-  // When the Login button is clicked
   $("#login-btn").click(function () {
     $(".modal-title").text("Login");
 
@@ -115,7 +114,6 @@ $(document).ready(function () {
     $("#myModal").modal("show");
   });
 
-  // When the Sign Up button is clicked
   $("#sign_up-btn").click(function () {
     $(".modal-title").text("Sign Up");
 
@@ -135,11 +133,9 @@ $(document).ready(function () {
       $("#login-form").show();
       $("#signup-form").hide();
 
-      // Update toggle text to "Don't have an account? Sign Up"
       $("#toggle-form").text("Don't have an account? Sign Up");
       $("#toggle-to-login").hide();
     } else {
-      // Show the Sign Up form and hide the Login form
       $(".modal-title").text("Sign Up");
       $("#signup-form").show();
       $("#login-form").hide();
@@ -154,7 +150,6 @@ $(document).ready(function () {
     $("#login-form").show();
     $("#signup-form").hide();
 
-    // Update toggle text to "Don't have an account? Sign Up"
     $("#toggle-form").text("Don't have an account? Sign Up");
     $("#toggle-to-login").hide();
   });
@@ -164,7 +159,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   function updateActiveNav() {
-    var currentView = window.location.hash || "#home"; 
+    var currentView = window.location.hash || "#home";
 
     $(".nav-item").removeClass("active");
 
@@ -186,5 +181,56 @@ $(document).ready(function () {
   });
 });
 
-
 //End of navigation JS
+
+// Admin panel add logic
+
+$(document).ready(function () {
+  $(document).on("submit", "#addListingForm", function (e) {
+    e.preventDefault();
+
+    var name = $("#productName").val();
+    var price = $("#productPrice").val();
+    var description = $("#productDescription").val();
+    var additionalInfo = $("#productAdditionalInfo").val();
+    var status = $("#productStatus").val();
+    var imageInput = $("#productImage")[0];
+
+    if (imageInput.files.length === 0) {
+      alert("Please select an image.");
+      return;
+    }
+
+    var productImage = URL.createObjectURL(imageInput.files[0]);
+
+    var newRow = `<tr class="product-row" data-status="${status}">
+      <td><img src="${productImage}" alt="Product Image" width="50"></td>
+      <td>${name}</td>
+      <td>${description}</td>
+      <td>${additionalInfo}</td>
+      <td>${price}</td>
+      <td class="status">${status}</td>
+      <td>
+        <button class="btn btn-warning btn-sm toggle-status" id="toggle-status-btn">Toggle Status</button>
+        <button class="btn btn-danger btn-sm delete-listing" id="delete-listing-btn">Delete</button>
+      </td>
+    </tr>`;
+
+    $("#productList").append(newRow);
+
+    $("#addListingForm")[0].reset();
+  });
+
+  $(document).on("click", ".toggle-status", function () {
+    var statusCell = $(this).closest("tr").find(".status");
+    var currentStatus = statusCell.text();
+    var newStatus = currentStatus === "Active" ? "Inactive" : "Active";
+    statusCell.text(newStatus);
+
+    $(this).closest("tr").attr("data-status", newStatus);
+  });
+
+  $(document).on("click", ".delete-listing", function () {
+    $(this).closest("tr").remove();
+  });
+});

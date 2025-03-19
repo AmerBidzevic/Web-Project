@@ -55,6 +55,15 @@ $(document).ready(function () {
       window.scrollTo(0, 0);
     },
   });
+  app.route({
+    view: "admin_panel",
+    load: "admin_panel.html",
+    onReady: function () {
+      $("section").hide();
+      $("#admin_panel").show();
+      window.scrollTo(0, 0);
+    },
+  });
 
   app.route({
     view: "checkout",

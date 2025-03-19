@@ -10075,3 +10075,7 @@ h6 {
   text-align: center !important;
   width: 100%;
 }
+
+#delete-listing-btn {
+  margin-top: 5px;
+}
