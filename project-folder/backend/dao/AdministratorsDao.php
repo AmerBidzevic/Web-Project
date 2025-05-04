@@ -15,12 +15,12 @@ class AdministratorsDao extends BaseDao {
             throw new Exception("User not found with ID: $userId");
         }
 
-        return [
+        return $this->insert([
             'user_id' => $userId,
             'email' => $user['email'],
             'role' => 'admin',
             'permissions' => ''
-        ];
+        ]);
     }
 
     public function getByUserId($userId) {
@@ -28,6 +28,9 @@ class AdministratorsDao extends BaseDao {
         $stmt->execute([':user_id' => $userId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-}
 
+    public function getAllAdmins() {
+        return $this->getAll();
+    }
+}
 ?>

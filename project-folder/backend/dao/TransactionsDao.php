@@ -34,6 +34,11 @@ class TransactionsDao extends BaseDao {
         $stmt->execute(['user_id' => $userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-}
 
+    public function getAllTransactions() {
+        return $this->getAll();
+    }
+
+
+}
 ?>
