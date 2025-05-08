@@ -6,19 +6,23 @@ class ProductsDao extends BaseDao{
         parent::__construct("products");
     }
 
-    public function createBasicProduct($name, $price){
+    public function createBasicProduct($name, $price) {
         return $this->insert([
             'name' => $name,
             'price' => $price
         ]);
     }
 
-    public function getByName($name){
+    public function getByName($name) {
         $stmt = $this->connection->prepare("SELECT * FROM products WHERE name LIKE :name");
         $stmt->bindValue(':name', "%$name%");
         $stmt->execute();
         return $stmt->fetchAll();
     }
-}
 
+    public function getAllProducts() {
+        return $this->getAll();
+    }
+
+}
 ?>

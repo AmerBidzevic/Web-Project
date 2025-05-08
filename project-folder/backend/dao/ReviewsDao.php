@@ -7,15 +7,13 @@ class ReviewsDao extends BaseDao {
     }
 
     public function createBasicReview($userId, $productId, $rating, $comment = null) {
-        $data = [
+        return $this->insert([
             'user_id' => $userId,
             'product_id' => $productId,
             'rating' => $rating,
             'comment' => $comment,
             'review_date' => date('Y-m-d H:i:s')
-        ];
-        
-        return $this->insert($data);
+        ]);
     }
 
     public function getByProductId($productId) {
@@ -31,6 +29,11 @@ class ReviewsDao extends BaseDao {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-}
 
+    public function getAllReviews() {
+        return $this->getAll();
+    }
+
+
+}
 ?>
