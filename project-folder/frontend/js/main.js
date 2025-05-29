@@ -2,162 +2,30 @@
   "use strict";
 
   // Dropdown on mouse hover
-  $(document).ready(function () {
-    function toggleNavbarMethod() {
-      if ($(window).width() > 992) {
-        $(".navbar .dropdown")
-          .on("mouseover", function () {
-            $(".dropdown-toggle", this).trigger("click");
-          })
-          .on("mouseout", function () {
-            $(".dropdown-toggle", this).trigger("click").blur();
-          });
-      } else {
-        $(".navbar .dropdown").off("mouseover").off("mouseout");
-      }
+  function toggleNavbarMethod() {
+    if ($(window).width() > 992) {
+      $(".navbar .dropdown")
+        .on("mouseover", function () {
+          $(".dropdown-toggle", this).trigger("click");
+        })
+        .on("mouseout", function () {
+          $(".dropdown-toggle", this).trigger("click").blur();
+        });
+    } else {
+      $(".navbar .dropdown").off("mouseover").off("mouseout");
     }
-    toggleNavbarMethod();
-    $(window).resize(toggleNavbarMethod);
-  });
+  }
 
   // Back to top button
-  $(window).scroll(function () {
-    if ($(this).scrollTop() > 100) {
+  function backToTopHandler() {
+    if ($(window).scrollTop() > 100) {
       $(".back-to-top").fadeIn("slow");
     } else {
       $(".back-to-top").fadeOut("slow");
     }
-  });
-  $(".back-to-top").click(function () {
-    $("html, body").animate({ scrollTop: 0 }, 1500, "easeInOutExpo");
-    return false;
-  });
+  }
 
-  // Vendor carousel
-  $(".vendor-carousel").owlCarousel({
-    loop: true,
-    margin: 29,
-    nav: false,
-    autoplay: true,
-    smartSpeed: 1000,
-    responsive: {
-      0: {
-        items: 2,
-      },
-      576: {
-        items: 3,
-      },
-      768: {
-        items: 4,
-      },
-      992: {
-        items: 5,
-      },
-      1200: {
-        items: 6,
-      },
-    },
-  });
-
-  // Related carousel
-  $(".related-carousel").owlCarousel({
-    loop: true,
-    margin: 29,
-    nav: false,
-    autoplay: true,
-    smartSpeed: 1000,
-    responsive: {
-      0: {
-        items: 1,
-      },
-      576: {
-        items: 2,
-      },
-      768: {
-        items: 3,
-      },
-      992: {
-        items: 4,
-      },
-    },
-  });
-
-  // Product Quantity
-  $(document).on("click", ".quantity button", function () {
-    var button = $(this);
-    var oldValue = button.closest(".quantity").find("input").val();
-
-    if (button.hasClass("btn-plus")) {
-      var newVal = parseFloat(oldValue) + 1;
-    } else {
-      if (oldValue > 0) {
-        var newVal = parseFloat(oldValue) - 1;
-      } else {
-        newVal = 0;
-      }
-    }
-
-    button.closest(".quantity").find("input").val(newVal);
-  });
-})(jQuery);
-
-//Modal code
-$(document).ready(function () {
-  $("#login-btn").click(function () {
-    $(".modal-title").text("Login");
-
-    $("#login-form").show();
-    $("#signup-form").hide();
-
-    $("#toggle-form").text("Don't have an account? Sign Up");
-    $("#toggle-to-login").hide();
-    $("#myModal").modal("show");
-  });
-
-  $("#sign_up-btn").click(function () {
-    $(".modal-title").text("Sign Up");
-
-    $("#signup-form").show();
-    $("#login-form").hide();
-
-    $("#toggle-form").text("Already a member? Login");
-    $("#toggle-to-login").show();
-
-    $("#myModal").modal("show");
-  });
-
-  // Toggle between Login and Sign Up forms
-  $("#toggle-form").click(function () {
-    if ($(".modal-title").text() === "Sign Up") {
-      $(".modal-title").text("Login");
-      $("#login-form").show();
-      $("#signup-form").hide();
-
-      $("#toggle-form").text("Don't have an account? Sign Up");
-      $("#toggle-to-login").hide();
-    } else {
-      $(".modal-title").text("Sign Up");
-      $("#signup-form").show();
-      $("#login-form").hide();
-
-      $("#toggle-form").text("Already a member? Login");
-      $("#toggle-to-login").show();
-    }
-  });
-
-  $("#toggle-to-login").click(function () {
-    $(".modal-title").text("Login");
-    $("#login-form").show();
-    $("#signup-form").hide();
-
-    $("#toggle-form").text("Don't have an account? Sign Up");
-    $("#toggle-to-login").hide();
-  });
-});
-
-//Correct navigation JS
-
-$(document).ready(function () {
+  // Update active navigation link based on hash
   function updateActiveNav() {
     var currentView = window.location.hash || "#home";
 
@@ -174,63 +42,288 @@ $(document).ready(function () {
     }
   }
 
-  updateActiveNav();
+  function updateAuthUI() {
+    const token = localStorage.getItem("jwt_token");
+    const user = JSON.parse(localStorage.getItem("user"));
 
-  $(window).on("hashchange", function () {
-    updateActiveNav();
-  });
-});
+    console.log("Current user:", user);
 
-//End of navigation JS
+    if (token && user) {
+      $("#login-btn").hide();
+      $("#sign_up-btn").hide();
+      $("#user-profile").text(user.email).show();
+      $("#logout-button").show();
 
-// Admin panel add logic
+      console.log("User role:", user.role);
+      console.log("Admin link element:", $("#admin-link").length);
 
-$(document).ready(function () {
-  $(document).on("submit", "#addListingForm", function (e) {
-    e.preventDefault();
-
-    var name = $("#productName").val();
-    var price = $("#productPrice").val();
-    var description = $("#productDescription").val();
-    var additionalInfo = $("#productAdditionalInfo").val();
-    var status = $("#productStatus").val();
-    var imageInput = $("#productImage")[0];
-
-    if (imageInput.files.length === 0) {
-      alert("Please select an image.");
+      if (user.role === "admin") {
+        console.log("Showing admin link");
+        $("#admin-link").show();
+      } else {
+        console.log("Hiding admin link");
+        $("#admin-link").hide();
+      }
+    } else {
+      console.log("User not logged in - resetting UI");
+      $("#login-btn").show();
+      $("#sign_up-btn").show();
+      $("#user-profile").hide();
+      $("#logout-button").hide();
+      $("#admin-link").hide();
+    }
+  }
+  async function authFetch(url, options = {}) {
+    const token = localStorage.getItem("jwt_token");
+    if (!token) {
+      window.location.href = "#home";
       return;
     }
 
-    var productImage = URL.createObjectURL(imageInput.files[0]);
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: token,
+      ...options.headers,
+    };
 
-    var newRow = `<tr class="product-row" data-status="${status}">
-      <td><img src="${productImage}" alt="Product Image" width="50"></td>
-      <td>${name}</td>
-      <td>${description}</td>
-      <td>${additionalInfo}</td>
-      <td>${price}</td>
-      <td class="status">${status}</td>
-      <td>
-        <button class="btn btn-warning btn-sm toggle-status" id="toggle-status-btn">Toggle Status</button>
-        <button class="btn btn-danger btn-sm delete-listing" id="delete-listing-btn">Delete</button>
-      </td>
-    </tr>`;
+    try {
+      const response = await fetch(url, {
+        ...options,
+        headers,
+      });
 
-    $("#productList").append(newRow);
+      if (response.status === 401) {
+        localStorage.removeItem("jwt_token");
+        localStorage.removeItem("user");
+        updateAuthUI();
+        window.location.href = "#home";
+        return;
+      }
 
-    $("#addListingForm")[0].reset();
+      return response;
+    } catch (error) {
+      console.error("Request failed:", error);
+      throw error;
+    }
+  }
+
+  $(document).ready(function () {
+    // Init dropdown hover method and window resize
+    toggleNavbarMethod();
+    $(window).resize(toggleNavbarMethod);
+
+    // Back to top button scroll event
+    $(window).scroll(backToTopHandler);
+    backToTopHandler();
+
+    // Back to top button click
+    $(".back-to-top").click(function () {
+      $("html, body").animate({ scrollTop: 0 }, 1500, "swing");
+      return false;
+    });
+
+    // Owl carousel - vendor
+    $(".vendor-carousel").owlCarousel({
+      loop: true,
+      margin: 29,
+      nav: false,
+      autoplay: true,
+      smartSpeed: 1000,
+      responsive: {
+        0: { items: 2 },
+        576: { items: 3 },
+        768: { items: 4 },
+        992: { items: 5 },
+        1200: { items: 6 },
+      },
+    });
+
+    // Owl carousel - related
+    $(".related-carousel").owlCarousel({
+      loop: true,
+      margin: 29,
+      nav: false,
+      autoplay: true,
+      smartSpeed: 1000,
+      responsive: {
+        0: { items: 1 },
+        576: { items: 2 },
+        768: { items: 3 },
+        992: { items: 4 },
+      },
+    });
+
+    // Product quantity buttons
+    $(document).on("click", ".quantity button", function () {
+      var button = $(this);
+      var oldValue = button.closest(".quantity").find("input").val();
+
+      if (button.hasClass("btn-plus")) {
+        var newVal = parseFloat(oldValue) + 1;
+      } else {
+        if (oldValue > 0) {
+          var newVal = parseFloat(oldValue) - 1;
+        } else {
+          newVal = 0;
+        }
+      }
+
+      button.closest(".quantity").find("input").val(newVal);
+    });
+
+    updateAuthUI();
+
+    $("#login-btn").click(function () {
+      $(".modal-title").text("Login");
+      $("#login-form").show();
+      $("#signup-form").hide();
+      $("#toggle-form").text("Don't have an account? Sign Up");
+      $("#toggle-to-login").hide();
+      $("#myModal").modal("show");
+    });
+
+    $("#sign_up-btn").click(function () {
+      $(".modal-title").text("Sign Up");
+      $("#signup-form").show();
+      $("#login-form").hide();
+      $("#toggle-form").text("Already a member? Login");
+      $("#toggle-to-login").show();
+      $("#myModal").modal("show");
+    });
+
+    $("#toggle-form").click(function () {
+      if ($(".modal-title").text() === "Sign Up") {
+        $(".modal-title").text("Login");
+        $("#login-form").show();
+        $("#signup-form").hide();
+        $("#toggle-form").text("Don't have an account? Sign Up");
+        $("#toggle-to-login").hide();
+      } else {
+        $(".modal-title").text("Sign Up");
+        $("#signup-form").show();
+        $("#login-form").hide();
+        $("#toggle-form").text("Already a member? Login");
+        $("#toggle-to-login").show();
+      }
+    });
+
+    $("#toggle-to-login").click(function () {
+      $(".modal-title").text("Login");
+      $("#login-form").show();
+      $("#signup-form").hide();
+      $("#toggle-form").text("Don't have an account? Sign Up");
+      $("#toggle-to-login").hide();
+    });
+
+    $(document).on("submit", "#actual-login-form", async function (e) {
+      e.preventDefault();
+      const email = $("#email").val();
+      const password = $("#psw").val();
+
+      try {
+        const response = await fetch("http://localhost/AmerBidzevic/Web-Project/project-folder/backend/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const text = await response.text();
+
+        if (!response.ok) {
+          console.error("Server error:", text);
+          if (response.headers.get("content-type")?.includes("application/json")) {
+            try {
+              const errorData = JSON.parse(text);
+              alert(errorData.error || "Login failed");
+            } catch {
+              alert("Login failed. Server error.");
+            }
+          } else {
+            alert("Login failed. Please check your connection and try again.");
+          }
+          return;
+        }
+
+        let data;
+        try {
+          data = JSON.parse(text);
+          console.log("Login response data:", data);
+        } catch (parseError) {
+          console.error("Invalid JSON from server:", text);
+          alert("Login failed. Invalid response from server.");
+          return;
+        }
+
+        if (data.message && data.message.toLowerCase().includes("successful")) {
+          localStorage.setItem("jwt_token", data.data.token);
+          localStorage.setItem("user", JSON.stringify(data.data.user));
+
+          updateAuthUI();
+
+          $("#myModal").modal("hide");
+          $(".modal-backdrop").remove();
+          $("body").removeClass("modal-open");
+
+          window.location.href = "#home";
+        } else {
+          alert(data.error || data.message || "Login failed");
+        }
+      } catch (error) {
+        alert("Login failed. Please check your connection and try again.");
+      }
+    });
+
+    $(document).on("submit", "#actual-signup-form", async function (e) {
+      e.preventDefault();
+      const email = $("#new-email").val();
+      const username = $("#new-username").val();
+      const password = $("#new-psw").val();
+
+      try {
+        const response = await fetch("http://localhost/AmerBidzevic/Web-Project/project-folder/backend/auth/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, email, password }),
+        });
+
+        const text = await response.text();
+        let data;
+
+        try {
+          data = JSON.parse(text);
+        } catch (parseError) {
+          alert("Registration failed. Invalid response from server.");
+          return;
+        }
+
+        if (response.ok) {
+          alert("Registration successful! Please login.");
+          $(".modal-title").text("Login");
+          $("#login-form").show();
+          $("#signup-form").hide();
+          $("#toggle-form").text("Don't have an account? Sign Up");
+          $("#toggle-to-login").hide();
+        } else {
+          alert(data.error || data.message || "Registration failed");
+        }
+      } catch (error) {
+        alert("Registration failed. Please check your connection and try again.");
+      }
+    });
+
+    $("#logout-button").click(function () {
+      localStorage.removeItem("jwt_token");
+      localStorage.removeItem("user");
+      updateAuthUI();
+      window.location.href = "#home";
+    });
+
+    updateActiveNav();
+
+    $(window).on("hashchange", updateActiveNav);
   });
-
-  $(document).on("click", ".toggle-status", function () {
-    var statusCell = $(this).closest("tr").find(".status");
-    var currentStatus = statusCell.text();
-    var newStatus = currentStatus === "Active" ? "Inactive" : "Active";
-    statusCell.text(newStatus);
-
-    $(this).closest("tr").attr("data-status", newStatus);
-  });
-
-  $(document).on("click", ".delete-listing", function () {
-    $(this).closest("tr").remove();
-  });
-});
+})(jQuery);

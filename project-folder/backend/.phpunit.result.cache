@@ -1,0 +1,1 @@
+{"version":1,"defects":{"ProductRoutesTest::testGetAllProducts":4,"ProductRoutesTest::testGetProductById":4},"times":{"ProductRoutesTest::testGetAllProducts":0.034,"ProductRoutesTest::testGetProductById":0}}

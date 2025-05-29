@@ -45,7 +45,7 @@
               <div class="dropdown-menu dropdown-menu-right">
                 <button class="dropdown-item" type="button" id="login-btn" data-toggle="modal" data-target="#myModal">Login</button>
                 <button class="dropdown-item" type="button" id="sign_up-btn" data-toggle="modal" data-target="#myModal">Sign up</button>
-                <button class="dropdown-item" type="button" >Log Out</button>
+                <button class="dropdown-item" type="button" id="logout-button">Log Out</button>
               </div>
             </div>
     
@@ -102,7 +102,7 @@
                 <a href="#home" class="nav-item nav-link active ml-3 mr-3">Home</a>
                 <a href="#shop" class="nav-item nav-link ml-3 mr-3">Shop</a>
                 <a href="#contact" class="nav-item nav-link ml-3 mr-3">Contact</a>
-                <a href="#admin_panel" class="nav-item nav-link ml-3 mr-3">Admin Panel</a>
+                <a href="#admin_panel" id="admin-link" class="nav-item nav-link ml-3 mr-3">Admin Panel</a>
 
 
               </div>
@@ -137,10 +137,10 @@
       <div class="modal-body">
         <!-- Login Form -->
         <div id="login-form">
-          <form role="form">
+          <form id="actual-login-form" role="form">
             <div class="form-group">
-              <label for="usrname"><span class="glyphicon glyphicon-user"></span> Username</label>
-              <input type="text" class="form-control" id="usrname" placeholder="Enter email">
+              <label for="email"><span class="glyphicon glyphicon-user"></span> Email</label>
+              <input type="text" class="form-control" id="email" placeholder="Enter Email">
             </div>
             <div class="form-group">
               <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
@@ -154,10 +154,10 @@
         </div>
         <!-- Sign-Up Form -->
         <div id="signup-form" style="display: none;">
-          <form role="form">
+          <form id="actual-signup-form" role="form">
             <div class="form-group">
               <label for="new-usrname"><span class="glyphicon glyphicon-user"></span> Username</label>
-              <input type="text" class="form-control" id="new-usrname" placeholder="Enter your username">
+              <input type="text" class="form-control" id="new-username" placeholder="Enter your username">
             </div>
             <div class="form-group">
               <label for="new-email"><span class="glyphicon glyphicon-envelope"></span> Email</label>
@@ -269,9 +269,11 @@
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
 
-    <!-- SPAPP  -->
+
+        <!-- SPAPP  -->
     <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
     <script src="assets/js/jquery.spapp.js"></script>
     <script src="assets/js/custom.js"></script>
+
   </body>
 </html>
