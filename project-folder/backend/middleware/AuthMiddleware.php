@@ -30,20 +30,16 @@ class AuthMiddleware {
         }
     }
 
-    private function getAuthToken() {
-        $request = Flight::request();
-        
-        if ($request->getHeader('Authentication')) {
-            return $request->getHeader('Authentication');
-        }
-        
-        $authHeader = $request->getHeader('Authorization');
-        if ($authHeader && preg_match('/Bearer\s+(.*)$/i', $authHeader, $matches)) {
-            return $matches[1];
-        }
-        
-        return null;
+function getAuthToken() {
+    $headers = getallheaders();
+    if (isset($headers['Authorization'])) {
+        return trim(str_replace('Bearer', '', $headers['Authorization']));
     }
+    if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
+        return trim(str_replace('Bearer', '', $_SERVER['HTTP_AUTHORIZATION']));
+    }
+    return null;
+}
 
     public function authorizeRole($requiredRole) {
         $user = Flight::get('user');

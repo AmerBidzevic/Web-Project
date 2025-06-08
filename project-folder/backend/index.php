@@ -1,8 +1,12 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization, Authentication"); // Added Authentication here
-header("Access-Control-Expose-Headers: Authentication"); // For custom headers
+header("Access-Control-Allow-Headers: Content-Type, Authorization, Authentication"); 
+header("Access-Control-Expose-Headers: Authentication"); 
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     header("HTTP/1.1 200 OK");
@@ -44,7 +48,11 @@ Flight::register('auth_middleware', 'AuthMiddleware');
 Flight::route('/*', function() {
     if(
         strpos(Flight::request()->url, '/auth/login') === 0 ||
-        strpos(Flight::request()->url, '/auth/register') === 0
+        strpos(Flight::request()->url, '/auth/register') === 0 ||
+        strpos(Flight::request()->url, '/products') === 0 ||
+        strpos(Flight::request()->url, '/products/featured') === 0 ||
+        strpos(Flight::request()->url, '/products/recent') === 0
+        
     ) {
         return TRUE;
     } else {
