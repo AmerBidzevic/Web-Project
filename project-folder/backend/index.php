@@ -45,26 +45,31 @@ Flight::register('adminService', 'AdministratorsService');
 Flight::register('auth_service', 'AuthService');
 Flight::register('auth_middleware', 'AuthMiddleware');
 
+
 Flight::route('/*', function() {
-    if(
-        strpos(Flight::request()->url, '/auth/login') === 0 ||
-        strpos(Flight::request()->url, '/auth/register') === 0 ||
-        strpos(Flight::request()->url, '/products') === 0 ||
-        strpos(Flight::request()->url, '/products/featured') === 0 ||
-        strpos(Flight::request()->url, '/products/recent') === 0
-        
+    $method = Flight::request()->method;
+    $url = Flight::request()->url;
+
+    if (
+        ($method === 'GET' && strpos($url, '/products') === 0) ||
+        strpos($url, '/auth/login') === 0 ||
+        strpos($url, '/auth/register') === 0
     ) {
         return TRUE;
     } else {
         try {
-            $token = Flight::request()->getHeader("Authentication");
+            $token = Flight::request()->getHeader("Authorization");
             if(Flight::auth_middleware()->verifyToken($token))
                 return TRUE;
         } catch (\Exception $e) {
             Flight::halt(401, $e->getMessage());
         }
     }
- });
+});
+
+Flight::route('GET /debug-headers', function() {
+    Flight::json(getallheaders());
+});
  
 
 require_once __DIR__ . '/routes/ProductRoutes.php';

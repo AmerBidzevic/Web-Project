@@ -810,7 +810,7 @@ $(document).on("submit", "#addListingForm", async function (e) {
   const stock = Number($("#productStock").val())
 
   try {
-    await ApiService.authFetch("/AmerBidzevic/Web-Project/project-folder/backend/products", {
+    await ApiService.authFetch("/products", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -833,7 +833,7 @@ $(document).on("click", ".delete-product", async function () {
   if (!confirm("Are you sure you want to delete this product?")) return
   const id = $(this).data("id")
   try {
-    await ApiService.authFetch(`/AmerBidzevic/Web-Project/project-folder/backend/products/${id}`, { method: "DELETE" })
+    await ApiService.authFetch(`/products/${id}`, { method: "DELETE" })
     alert("Product deleted!")
     loadAdminProducts()
   } catch (err) {
@@ -868,7 +868,7 @@ $(document).on("submit", "#editProductForm", async function (e) {
   const description = $("#editProductDescription").val()
 
   try {
-    await ApiService.authFetch(`/AmerBidzevic/Web-Project/project-folder/backend/products/${id}`, {
+    await ApiService.authFetch(`/products/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, price, stock, description })

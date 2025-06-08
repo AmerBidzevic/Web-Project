@@ -13,30 +13,34 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
 class AuthMiddleware {
-    public function verifyToken($token = null) {
-        $token = $token ?? $this->getAuthToken();
-        
-        if (!$token) {
-            Flight::halt(401, "Missing authentication header");
-        }
-        
-        try {
-            $decoded_token = JWT::decode($token, new Key(Config::JWT_SECRET(), 'HS256'));
-            Flight::set('user', $decoded_token->user);
-            Flight::set('jwt_token', $token);
-            return true;
-        } catch (Exception $e) {
-            Flight::halt(401, "Invalid token: " . $e->getMessage());
-        }
+public function verifyToken($token = null) {
+    $token = $token ?? $this->getAuthToken();
+    error_log("Raw token received: [" . $token . "]");
+    $token = preg_replace('/^Bearer\s+/i', '', $token);
+
+    if (!$token) {
+        Flight::halt(401, "Missing authentication header");
     }
+    try {
+        $decoded_token = JWT::decode($token, new Key(Config::JWT_SECRET(), 'HS256'));
+        Flight::set('user', $decoded_token->user);
+        Flight::set('jwt_token', $token);
+        return true;
+    } catch (Exception $e) {
+        Flight::halt(401, "Invalid token: " . $e->getMessage());
+    }
+}
+
 
 function getAuthToken() {
     $headers = getallheaders();
-    if (isset($headers['Authorization'])) {
-        return trim(str_replace('Bearer', '', $headers['Authorization']));
+    foreach ($headers as $key => $value) {
+        if (strtolower($key) === 'authorization') {
+            return trim(preg_replace('/^Bearer\s+/i', '', $value));
+        }
     }
     if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
-        return trim(str_replace('Bearer', '', $_SERVER['HTTP_AUTHORIZATION']));
+        return trim(preg_replace('/^Bearer\s+/i', '', $_SERVER['HTTP_AUTHORIZATION']));
     }
     return null;
 }

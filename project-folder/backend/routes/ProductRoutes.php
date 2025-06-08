@@ -110,6 +110,8 @@ Flight::route('GET /products/@id', function($id) {
 * )
 */
 Flight::route('POST /products', function() {
+    Flight::auth_middleware()->verifyToken();
+    Flight::auth_middleware()->authorizeRole('admin');
     $data = Flight::request()->data->getData();
     error_log("POST /products data: " . json_encode($data)); 
     try {
@@ -153,6 +155,8 @@ Flight::route('POST /products', function() {
 * )
 */
 Flight::route('PUT /products/@id', function($id) {
+    Flight::auth_middleware()->verifyToken();
+    Flight::auth_middleware()->authorizeRole('admin');
     $data = Flight::request()->data->getData();
     Flight::json(Flight::productService()->updateProduct($id, $data));
 });
