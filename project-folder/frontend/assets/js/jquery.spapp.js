@@ -30,8 +30,9 @@
     // manage hash change
     var routeChange = function () {
       var id = location.hash.slice(1)
-      var route = routes[id]
-      var elm = $("#" + id)
+      var baseId = id.split("/")[0]
+      var route = routes[baseId]
+      var elm = $("#" + baseId)
 
       if (!elm || !route) {
         if (config.pageNotFound) {

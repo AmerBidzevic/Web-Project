@@ -19,6 +19,9 @@
  * )
  */
 Flight::route('GET /users', function() {
+    Flight::auth_middleware()->verifyToken();
+    Flight::auth_middleware()->authorizeRole('user');
+
     Flight::json(Flight::userService()->getAllUsers());
 });
 
@@ -50,6 +53,10 @@ Flight::route('GET /users', function() {
  * )
  */
 Flight::route('GET /users/@id', function($id) {
+    Flight::auth_middleware()->verifyToken();
+    Flight::auth_middleware()->authorizeRole('admin');
+
+
     $user = Flight::userService()->getUserById($id);
     Flight::json($user);
 });
@@ -153,6 +160,9 @@ Flight::route('PUT /users/@id', function($id) {
  * )
  */
 Flight::route('DELETE /users/@id', function($id) {
+    Flight::auth_middleware()->verifyToken();
+    Flight::auth_middleware()->authorizeRole('admin');
+    
     Flight::userService()->deleteUser($id);
     Flight::json(['message' => 'User deleted']);
 });

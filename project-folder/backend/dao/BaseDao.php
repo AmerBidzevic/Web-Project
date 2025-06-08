@@ -51,9 +51,18 @@ class BaseDao {
 
 
    public function delete($id) {
-       $stmt = $this->connection->prepare("DELETE FROM " . $this->table . " WHERE id = :id");
-       $stmt->bindParam(':id', $id);
-       return $stmt->execute();
-   }
+    try {
+        $stmt = $this->connection->prepare("DELETE FROM " . $this->table . " WHERE id = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $result = $stmt->execute();
+        if (!$result) {
+            error_log("Delete failed: " . implode(", ", $stmt->errorInfo()));
+        }
+        return $result;
+    } catch (Exception $e) {
+        error_log("Delete exception: " . $e->getMessage());
+        throw $e;
+    }
+}
 }
 ?>

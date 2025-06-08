@@ -1,8 +1,12 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization, Authentication"); // Added Authentication here
-header("Access-Control-Expose-Headers: Authentication"); // For custom headers
+header("Access-Control-Allow-Headers: Content-Type, Authorization, Authentication"); 
+header("Access-Control-Expose-Headers: Authentication"); 
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     header("HTTP/1.1 200 OK");
@@ -41,22 +45,31 @@ Flight::register('adminService', 'AdministratorsService');
 Flight::register('auth_service', 'AuthService');
 Flight::register('auth_middleware', 'AuthMiddleware');
 
+
 Flight::route('/*', function() {
-    if(
-        strpos(Flight::request()->url, '/auth/login') === 0 ||
-        strpos(Flight::request()->url, '/auth/register') === 0
+    $method = Flight::request()->method;
+    $url = Flight::request()->url;
+
+    if (
+        ($method === 'GET' && strpos($url, '/products') === 0) ||
+        strpos($url, '/auth/login') === 0 ||
+        strpos($url, '/auth/register') === 0
     ) {
         return TRUE;
     } else {
         try {
-            $token = Flight::request()->getHeader("Authentication");
+            $token = Flight::request()->getHeader("Authorization");
             if(Flight::auth_middleware()->verifyToken($token))
                 return TRUE;
         } catch (\Exception $e) {
             Flight::halt(401, $e->getMessage());
         }
     }
- });
+});
+
+Flight::route('GET /debug-headers', function() {
+    Flight::json(getallheaders());
+});
  
 
 require_once __DIR__ . '/routes/ProductRoutes.php';

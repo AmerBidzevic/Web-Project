@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div id="admin_panel" class="container mt-5">
   <h2 class="mb-4">Admin Panel - Product Listings</h2>
 
   <div class="card mb-4">
@@ -14,58 +14,67 @@
             <label class="form-label">Price ($)</label>
             <input type="number" class="form-control" id="productPrice" required />
           </div>
+          <div class="col-md-6">
+            <label class="form-label">Stock</label>
+            <input type="number" class="form-control" id="productStock" required />
+          </div>
         </div>
         <div class="mb-3">
           <label class="form-label">Description</label>
           <textarea class="form-control" id="productDescription" rows="3" required></textarea>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Additional Information</label>
-          <textarea class="form-control" id="productAdditionalInfo" rows="3"></textarea>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Image</label>
-          <input type="file" class="form-control" id="productImage" accept="image/*" required />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Status</label>
-          <select class="form-control" id="productStatus">
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-          </select>
-        </div>
+
         <button type="submit" class="btn btn-primary">Add Listing</button>
       </form>
     </div>
   </div>
 
   <div class="mb-3">
-    <label class="form-label">Filter by Status</label>
-    <select class="form-control" id="statusFilter">
-      <option value="All">All</option>
-      <option value="Active">Active</option>
-      <option value="Inactive">Inactive</option>
-    </select>
+    <table class="table table-bordered mt-3">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="productList"></tbody>
+    </table>
   </div>
 
-  <div class="card">
-    <div class="card-header">Manage Listings</div>
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>Image</th>
-              <th>Product Name</th>
-              <th>Description</th>
-              <th>Additional Info</th>
-              <th>Price ($)</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="productList"></tbody>
-        </table>
+  <!-- Edit Product Modal -->
+  <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="editProductForm">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="editProductId" />
+            <div class="mb-3">
+              <label class="form-label">Product Name</label>
+              <input type="text" class="form-control" id="editProductName" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Price ($)</label>
+              <input type="number" class="form-control" id="editProductPrice" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Stock</label>
+              <input type="number" class="form-control" id="editProductStock" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Description</label>
+              <textarea class="form-control" id="editProductDescription" rows="3" required></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

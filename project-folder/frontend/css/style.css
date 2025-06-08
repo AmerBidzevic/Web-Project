@@ -10079,3 +10079,11 @@ h6 {
 #delete-listing-btn {
   margin-top: 5px;
 }
+
+#email.is-invalid {
+  border-color: #dc3545 !important;
+}
+#email + .help-block.text-danger {
+  display: block;
+  color: #dc3545;
+}
