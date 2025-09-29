@@ -24,6 +24,36 @@ Flight::route('GET /products', function() {
 
 /**
 * @OA\Get(
+*     path="/products/featured",
+*     tags={"products"},
+*     summary="Get featured products",
+*     @OA\Response(
+*         response=200,
+*         description="List of featured products"
+*     )
+* )
+*/
+Flight::route('GET /products/featured', function() {
+    Flight::json(Flight::productService()->getFeaturedProducts());
+});
+
+/**
+* @OA\Get(
+*     path="/products/recent",
+*     tags={"products"},
+*     summary="Get recently added products",
+*     @OA\Response(
+*         response=200,
+*         description="List of recently added products"
+*     )
+* )
+*/
+Flight::route('GET /products/recent', function() {
+    Flight::json(Flight::productService()->getRecentProducts());
+});
+
+/**
+* @OA\Get(
 *     path="/products/{id}",
 *     tags={"products"},
 *     summary="Get product details by ID",
@@ -80,10 +110,18 @@ Flight::route('GET /products/@id', function($id) {
 * )
 */
 Flight::route('POST /products', function() {
+    Flight::auth_middleware()->verifyToken();
+    Flight::auth_middleware()->authorizeRole('admin');
     $data = Flight::request()->data->getData();
-    Flight::json(Flight::productService()->createProduct($data));
+    error_log("POST /products data: " . json_encode($data)); 
+    try {
+        $result = Flight::productService()->createProduct($data);
+        Flight::json($result);
+    } catch (Exception $e) {
+        error_log("POST /products error: " . $e->getMessage());
+        Flight::json(['error' => $e->getMessage()], 500);
+    }
 });
-
 /**
 * @OA\Put(
 *     path="/products/{id}",
@@ -117,6 +155,8 @@ Flight::route('POST /products', function() {
 * )
 */
 Flight::route('PUT /products/@id', function($id) {
+    Flight::auth_middleware()->verifyToken();
+    Flight::auth_middleware()->authorizeRole('admin');
     $data = Flight::request()->data->getData();
     Flight::json(Flight::productService()->updateProduct($id, $data));
 });
@@ -145,8 +185,9 @@ Flight::route('PUT /products/@id', function($id) {
 * )
 */
 Flight::route('DELETE /products/@id', function($id) {
+    Flight::auth_middleware()->verifyToken();
+    Flight::auth_middleware()->authorizeRole('admin');
     Flight::json(Flight::productService()->deleteProduct($id));
 });
-
 
 ?>
