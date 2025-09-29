@@ -2,24 +2,13 @@
 
 A modern, full-stack e-commerce web application built with PHP backend and vanilla JavaScript frontend. This project implements a complete online gaming merchandise store with user authentication, product management, shopping cart, and admin panel functionality.
 
-## 🚀 Live Demo
+## Live Demo
 
 The application is currently designed to run on a local XAMPP server environment.
 
 **Note:** This project was originally planned for cloud deployment (AWS/Heroku/DigitalOcean) in the final development phase, but was reverted to local hosting for simplicity and ease of setup during development and testing. The codebase is deployment-ready and can be easily adapted for production hosting environments.
 
-## 📋 Table of Contents
-
-- [Features](#features)
-- [Technology Stack](#technology-stack)
-- [Project Structure](#project-structure)
-- [Database Schema](#database-schema)
-- [Installation](#installation)
-- [API Documentation](#api-documentation)
-- [Testing](#testing)
-- [Contributing](#contributing)
-
-## ✨ Features
+## Features
 
 ### User Features
 
@@ -47,7 +36,7 @@ The application is currently designed to run on a local XAMPP server environment
 - **Error Handling** - Comprehensive error handling and logging
 - **Unit Testing** - PHPUnit test suite for backend components
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 ### Backend
 
@@ -78,7 +67,7 @@ The application is currently designed to run on a local XAMPP server environment
 - **VS Code** - Code editor
 - **Postman** - API testing (recommended)
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Web-Project/
@@ -156,7 +145,7 @@ Web-Project/
             └── admin_panel.html   # Admin dashboard template
 ```
 
-## 🗄️ Database Schema
+## Database Schema
 
 The application uses a MySQL database with the following main entities:
 
@@ -176,7 +165,7 @@ The application uses a MySQL database with the following main entities:
 - Transactions are linked to users and products
 - Admins are linked to user accounts
 
-## 🚀 Installation
+## Installation
 
 ### Prerequisites
 
@@ -235,7 +224,7 @@ public static function DB_PASS() {
 - **Backend API**: http://localhost/Web-Project/project-folder/backend/
 - **API Documentation**: http://localhost/Web-Project/project-folder/backend/public/v1/docs/
 
-## ⚙️ Configuration
+## Configuration
 
 ### Environment Variables
 
@@ -254,7 +243,7 @@ header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, Authentication");
 ```
 
-## 📚 API Documentation
+## API Documentation
 
 ### Authentication Endpoints
 
@@ -299,7 +288,7 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization, Authenticatio
 - `GET /admin/products` - Manage products
 - `GET /admin/transactions` - Manage transactions
 
-## 🧪 Testing
+## Testing
 
 ### Running Backend Tests
 
@@ -330,21 +319,21 @@ curl -X POST http://localhost/Web-Project/project-folder/backend/auth/login \
   -d '{"email": "test@example.com", "password": "password123"}'
 ```
 
-## 👨‍💻 Author
+## Author
 
 **Amer Bidzevic**
 
 - GitHub: [@AmerBidzevic](https://github.com/AmerBidzevic)
 - Email: [bdzamer@gmail.com](mailto:bdzamer@gmail.com)
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - FlightPHP framework for the lightweight REST API structure
 - Bootstrap team for the responsive CSS framework
 - Font Awesome for the comprehensive icon library
 - The open-source community for various libraries and tools used
 
-## 📈 Future Enhancements
+## Future Enhancements
 
 - [ ] Payment gateway integration (Stripe, PayPal)
 - [ ] Real-time notifications using WebSockets
@@ -359,4 +348,4 @@ curl -X POST http://localhost/Web-Project/project-folder/backend/auth/login \
 
 ---
 
-**Made with ❤️ by Amer Bidzevic**
+**Made by Amer Bidzevic**
